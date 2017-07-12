@@ -1,0 +1,26 @@
+image: alpine:3.6
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+stages:
+#  - build-web
+  - build-prod
+
+before_script:
+  - docker info
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+build job:
+  stage: build
+  script:
+  # nginx, test configuration and exit.
+  #- nginx -v
+  #- nginx -t
+  - TMPTAG=$(date +%Y%m%d-%H%M)
+  - docker build --pull -t $CI_REGISTRY_IMAGE .
+#  - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$TMPTAG
+#  - docker push $CI_REGISTRY_IMAGE:$TMPTAG
