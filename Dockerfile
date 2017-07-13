@@ -2,10 +2,7 @@ FROM alpine:3.6
 
 MAINTAINER Anucha Nualsi <n.anucha@er.co.th>
 
-COPY [
-     "nginx-container/* /nginx-container/",
-     "nginx-tools/* /nginx-tools/"
-]
+COPY nginx-src /nginx-tools
 
 # https://github.com/gliderlabs/docker-alpine/issues/185
 RUN mkdir -p /run/nginx && \
