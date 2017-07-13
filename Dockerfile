@@ -19,7 +19,7 @@ RUN mkdir -p /run/nginx && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
-    #ls -ln / && \
+    cp -f /nginx-src/nginx-containger/nginx.conf /etc/nginx/ && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
     chmod a+x /nginx-src/nginx-tools/install.sh && \
     /nginx-src/nginx-tools/gzip_static.sh

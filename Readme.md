@@ -28,25 +28,27 @@ docker login registry.er.co.th:443
 **First installation**
 ติดตั้งไฟล์ลงบน host
 ```shell
-mkdir -p /var/nginx/
-mkdir -p /etc/ssl/certs/
-mkdir -p /etc/letsencrypt/webconfig/
-mkdir -p /etc/letsencrypt/webrootauth/
+mkdir -p /var/nginx/ && \
+mkdir -p /etc/ssl/certs/ && \
+mkdir -p /etc/letsencrypt/webconfig/ && \
+mkdir -p /etc/letsencrypt/webrootauth/ && \
 
+docker pull registry.er.co.th:443/er.co.th/www:latest && \
 docker run -it --rm \
        --name webserver \
-       --volume /usr/share/nginx:/usr/share/nginx:rw \
+       --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
        /nginx-src/nginx-tools/install.sh
 ```
 
 ```shell
+docker pull registry.er.co.th:443/er.co.th/www:latest && \
 docker run -d \
        --name webserver \
        --publish 80:80 \
        --publish 443:443 \
-       --volume /usr/share/nginx:/usr/share/nginx:ro \
+       --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro
        registry.er.co.th:443/er.co.th/www:latest
@@ -56,7 +58,7 @@ docker run -d \
 ให้สั่ง gzip สำหรับ gzip_static on
 และ nginx reload configuration ใหม่
 ```shell
-#docker exec -it webserver /gzip_static.sh
+#docker exec -it webserver /nginx-src/nginx-tools/gzip_static.sh
 docker exec -it webserver nginx -s reload
 ```
 
