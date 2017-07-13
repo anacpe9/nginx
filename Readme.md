@@ -45,12 +45,13 @@ docker run -it --rm \
 ```shell
 docker pull registry.er.co.th:443/er.co.th/www:latest && \
 docker run -d \
-       --name webserver \
+       --restart always \
+       --name webserver2 \
        --publish 80:80 \
        --publish 443:443 \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
-       --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro
+       --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
        registry.er.co.th:443/er.co.th/www:latest
 ```
 
