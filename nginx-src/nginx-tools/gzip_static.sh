@@ -1,20 +1,18 @@
-#!/bin/sh
+#!/bin/ash
 
 #http://wiki.linuxwall.info/doku.php/en:ressources:dossiers:nginx:nginx_performance_tuning
+FILETYPES="*.html *.woff *.css *.jpg *.jpeg *.gif *.png *.js"
 
-FILETYPES=( "*.html" "*.woff" "*.css" "*.jpg" "*.jpeg" "*.gif" "*.png" "*.js"  )
-
-# specify a list of directories to check recursively
 #DIRECTORIES="/usr/share/nginx/html/"
-DIRECTORIES="/nginx-container/"
+DIRECTORIES="/nginx-src/nginx-container/"
 
 for currentdir in $DIRECTORIES
 do
-   for i in "${FILETYPES[@]}"
+   for i in $FILETYPES
    do
-      find $currentdir -iname "$i" -exec bash -c 'PLAINFILE={};GZIPPEDFILE={}.gz; \
+      find $currentdir -iname "$i" -exec ash -c 'PLAINFILE={};GZIPPEDFILE={}.gz; \
          if [ -e $GZIPPEDFILE ]; \
-         then   if [ `stat --printf=%Y $PLAINFILE` -gt `stat --printf=%Y $GZIPPEDFILE` ]; \
+         then   if [ `stat -c %Y $PLAINFILE` -gt `stat -c %Y $GZIPPEDFILE` ]; \
                 then    echo "$GZIPPEDFILE outdated, regenerating"; \
                         gzip -9 -f -c $PLAINFILE > $GZIPPEDFILE; \
                  fi; \
