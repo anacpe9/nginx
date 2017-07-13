@@ -1,11 +1,12 @@
 **โครงสร้างหลัก**
 ```
 /etc/ssl/certs/
-/etc/nginx/config.conf ---------------------------> <default configuration file>
+/etc/nginx/config.conf ---------------------------> <default main configuration file>
 /usr/share/nginx/
   |-- config/
   |   |-- nginx.pre-ssl.conf ---------------------> <use for setting letsencrypt>
   |   |-- conf.d/
+  |       |-- th.ac.er.www.config ---------------> vhost server block config file
   |       `-- th.ac.er.test.config
   |   |-- ssl/
   |       |-- dhparam.pem
@@ -52,8 +53,10 @@ docker run -d \
 ```
 
 หากมีการติดตั้ง plug-in vhost หลักจากนี้   
-ให้สั่ง nginx reload configuration ใหม่
+ให้สั่ง gzip สำหรับ gzip_static on
+และ nginx reload configuration ใหม่
 ```shell
+#docker exec -it webserver /gzip_static.sh
 docker exec -it webserver nginx -s reload
 ```
 
