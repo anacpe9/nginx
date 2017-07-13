@@ -7,11 +7,11 @@ COPY nginx-src /nginx-src
 # https://github.com/gliderlabs/docker-alpine/issues/185
 RUN mkdir -p /run/nginx && \
     mkdir -p /etc/ssl/certs/ && \
-    mkdir -p /usr/share/nginx/ && \
-    mkdir -p /usr/share/nginx/logs/ && \
-    mkdir -p /usr/share/nginx/html/ && \
-    mkdir -p /usr/share/nginx/config/ && \    
-    mkdir -p /usr/share/nginx/ssl/snippets/ && \
+    #mkdir -p /var/nginx/ && \
+    #mkdir -p /var/nginx/logs/ && \
+    #mkdir -p /var/nginx/html/ && \
+    #mkdir -p /var/nginx/config/ && \    
+    #mkdir -p /var/nginx/ssl/snippets/ && \
     apk update && \
     apk upgrade && \
     apk add --no-cache --update \
@@ -19,7 +19,7 @@ RUN mkdir -p /run/nginx && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
-    cp -f /nginx-src/nginx-containger/nginx.conf /etc/nginx/ && \
+    cp -f /nginx-src/nginx-container/nginx.conf /etc/nginx/ && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
     chmod a+x /nginx-src/nginx-tools/install.sh && \
     /nginx-src/nginx-tools/gzip_static.sh
