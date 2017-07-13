@@ -2,7 +2,7 @@
 ```
 /etc/ssl/certs/
 /etc/nginx/config.conf ---------------------------> <default main configuration file>
-/usr/share/nginx/
+/var/nginx/
   |-- config/
   |   |-- nginx.pre-ssl.conf ---------------------> <use for setting letsencrypt>
   |   |-- conf.d/
@@ -28,8 +28,8 @@ docker login registry.er.co.th:443
 **First installation**
 ติดตั้งไฟล์ลงบน host
 ```shell
+mkdir -p /var/nginx/
 mkdir -p /etc/ssl/certs/
-mkdir -p /usr/share/nginx/
 mkdir -p /etc/letsencrypt/webconfig/
 mkdir -p /etc/letsencrypt/webrootauth/
 
@@ -38,7 +38,7 @@ docker run -it --rm \
        --volume /usr/share/nginx:/usr/share/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
-       /install.sh
+       /nginx-src/nginx-tools/install.sh
 ```
 
 ```shell

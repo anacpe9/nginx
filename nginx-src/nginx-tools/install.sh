@@ -2,5 +2,5 @@
 
 set -e
 
-cp -rf /nginx-container/* /usr/share/nginx/
+cp -rf /nginx-container/* /var/nginx/
 rm -rf /nginx-tools/
