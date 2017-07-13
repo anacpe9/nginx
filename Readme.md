@@ -65,7 +65,6 @@ docker exec -it webserver nginx -s reload
 **ลบไฟล์**
 ```shell
 docker run -it --rm \
-       --name webserver \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
@@ -77,11 +76,19 @@ docker run -it --rm \
 $(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
 echo "must reinstall new version." && \
 docker run -it --rm \
-       --name webserver \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
-       /nginx-src/nginx-tools/reinstall.sh && \
+       /nginx-src/nginx-tools/uninstall.sh && \
+docker run -it --rm \
+       --volume /var/nginx:/var/nginx:rw \
+       --volume /etc/letsencrypt:/etc/letsencrypt:rw \
+       registry.er.co.th:443/er.co.th/www:latest \
+       /nginx-src/nginx-tools/install.sh && \
+echo "docker stop webserver2" && \
+docker stop webserver2 && \
+echo "docker rm webserver2" && \
+docker rm webserver2 && \
 docker run -d \
        --restart always \
        --name webserver2 \

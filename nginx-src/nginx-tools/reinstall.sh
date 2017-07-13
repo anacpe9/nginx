@@ -2,5 +2,5 @@
 
 set -e
 
-./uninstall.sh
-./install.sh
+/nginx-src/nginx-tools/uninstall.sh
+/nginx-src/nginx-tools/install.sh
