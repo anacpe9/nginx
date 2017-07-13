@@ -79,12 +79,7 @@ docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
-       /nginx-src/nginx-tools/uninstall.sh && \
-docker run -it --rm \
-       --volume /var/nginx:/var/nginx:rw \
-       --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/er.co.th/www:latest \
-       /nginx-src/nginx-tools/install.sh && \
+       /nginx-src/nginx-tools/reinstall.sh && \
 echo "docker stop webserver2" && \
 docker stop webserver2 && \
 echo "docker rm webserver2" && \
