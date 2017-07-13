@@ -23,6 +23,7 @@ RUN mkdir -p /run/nginx/ && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
     chmod a+x /nginx-src/nginx-tools/install.sh && \
     chmod a+x /nginx-src/nginx-tools/uninstall.sh && \
+    chmod a+x /nginx-src/nginx-tools/restall.sh && \
     mkdir -p /var/tmp/nginx/client_body/ && \
     echo "ls -l /run/nginx/" && \
     ls -l /run/nginx/ && \

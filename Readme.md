@@ -35,7 +35,6 @@ mkdir -p /etc/letsencrypt/webrootauth/ && \
 
 docker pull registry.er.co.th:443/er.co.th/www:latest && \
 docker run -it --rm \
-       --name webserver \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
        registry.er.co.th:443/er.co.th/www:latest \
@@ -61,6 +60,37 @@ docker run -d \
 ```shell
 #docker exec -it webserver /nginx-src/nginx-tools/gzip_static.sh
 docker exec -it webserver nginx -s reload
+```
+
+**ลบไฟล์**
+```shell
+docker run -it --rm \
+       --name webserver \
+       --volume /var/nginx:/var/nginx:rw \
+       --volume /etc/letsencrypt:/etc/letsencrypt:rw \
+       registry.er.co.th:443/er.co.th/www:latest \
+       /nginx-src/nginx-tools/uninstall.sh
+```
+
+**One-Shot command** (ยังไม่ได้ทดสอบ)
+```shell
+$(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
+echo "must reinstall new version." && \
+docker run -it --rm \
+       --name webserver \
+       --volume /var/nginx:/var/nginx:rw \
+       --volume /etc/letsencrypt:/etc/letsencrypt:rw \
+       registry.er.co.th:443/er.co.th/www:latest \
+       /nginx-src/nginx-tools/reinstall.sh && \
+docker run -d \
+       --restart always \
+       --name webserver2 \
+       --publish 80:80 \
+       --publish 443:443 \
+       --volume /var/nginx:/var/nginx:ro \
+       --volume /etc/letsencrypt:/etc/letsencrypt:ro \
+       --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
+       registry.er.co.th:443/er.co.th/www:latest
 ```
 
 **Refernce**
