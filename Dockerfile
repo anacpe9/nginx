@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 MAINTAINER Anucha Nualsi <n.anucha@er.co.th>
 
-COPY nginx-src /nginx-tools
+COPY nginx-src /nginx-src
 
 # https://github.com/gliderlabs/docker-alpine/issues/185
 RUN mkdir -p /run/nginx && \
@@ -19,7 +19,7 @@ RUN mkdir -p /run/nginx && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
-    ls -ln / && \
-    /nginx-tools/gzip_static.sh
+    #ls -ln / && \
+    /nginx-src/nginx-tools/gzip_static.sh
 
 CMD ["nginx", "-g", "daemon off;"]
