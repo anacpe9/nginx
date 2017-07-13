@@ -24,6 +24,12 @@ RUN mkdir -p /run/nginx/ && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
     chmod a+x /nginx-src/nginx-tools/install.sh && \
     chmod a+x /nginx-src/nginx-tools/uninstall.sh && \
+    echo "ls -l /run/nginx/" && \
+    ls -l /run/nginx/ && \
+    echo "ls -l /var/tmp/nginx/client_body/" && \
+    ls -l /var/tmp/nginx/client_body/ && \
+    echo "ls -l /etc/ssl/certs/" && \    
+    ls -l /etc/ssl/certs/ && \
     /nginx-src/nginx-tools/gzip_static.sh
 
 CMD ["nginx", "-g", "daemon off;"]
