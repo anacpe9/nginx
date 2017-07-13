@@ -6,6 +6,7 @@ COPY nginx-src /nginx-src
 
 # https://github.com/gliderlabs/docker-alpine/issues/185
 RUN mkdir -p /run/nginx && \
+    mkdir -p /var/tmp/nginx && \
     mkdir -p /etc/ssl/certs/ && \
     #mkdir -p /var/nginx/ && \
     #mkdir -p /var/nginx/logs/ && \
