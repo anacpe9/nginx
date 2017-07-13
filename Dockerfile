@@ -7,6 +7,11 @@ RUN mkdir -p /run/nginx && \
     apk update && \
     apk upgrade && \
     apk add --no-cache --update \
-        nginx
+        nginx && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf /var/cache/apk/* && \
+    mkdir -p /etc/ssl/certs/ && \
+    mkdir -p /usr/share/nginx/
 
 CMD ["nginx", "-g", "daemon off;"]

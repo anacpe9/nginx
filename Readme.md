@@ -1,9 +1,10 @@
 **โครงสร้างหลัก**
 ```
 /etc/ssl/certs/
+/etc/nginx/config.conf ---------------------------> <default configuration file>
 /usr/share/nginx/
   |-- config/
-  |   |-- nginx.conf <default configuration file>
+  |   |-- nginx.conf
   |   |-- conf.d/
   |       `-- th.ac.er.test.config
   |   |-- ssl/
