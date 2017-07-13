@@ -1,4 +1,4 @@
-image: alpine:3.6
+image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay2
