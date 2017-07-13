@@ -19,6 +19,6 @@ RUN mkdir -p /run/nginx && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
-    /assets/gzip_static.sh
+    /nginx-tools/gzip_static.sh
 
 CMD ["nginx", "-g", "daemon off;"]
