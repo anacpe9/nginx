@@ -4,7 +4,7 @@
 /etc/nginx/config.conf ---------------------------> <default configuration file>
 /usr/share/nginx/
   |-- config/
-  |   |-- nginx.conf
+  |   |-- nginx.pre-ssl.conf ---------------------> <use for setting letsencrypt>
   |   |-- conf.d/
   |       `-- th.ac.er.test.config
   |   |-- ssl/

@@ -23,5 +23,5 @@ build job:
   - TMPTAG=$(date +%Y%m%d-%H%M)
   - docker build --pull -t $CI_REGISTRY_IMAGE:latest .
   - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$TMPTAG
-  #- docker push $CI_REGISTRY_IMAGE:$TMPTAG
-  - docker images
+  - docker push $CI_REGISTRY_IMAGE:$TMPTAG
+  #- docker images
