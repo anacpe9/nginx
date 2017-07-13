@@ -71,7 +71,7 @@ docker run -it --rm \
        /nginx-src/nginx-tools/uninstall.sh
 ```
 
-**One-Shot command** (ยังไม่ได้ทดสอบ)
+**One-Shot command**
 ```shell
 $(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
 echo "must reinstall new version." && \
