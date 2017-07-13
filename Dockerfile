@@ -21,7 +21,7 @@ RUN mkdir -p /run/nginx && \
     rm -rf /var/cache/apk/* && \
     #ls -ln / && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
-    chmod a+x /nginx-src/nginx-tools/install && \
+    chmod a+x /nginx-src/nginx-tools/install.sh && \
     /nginx-src/nginx-tools/gzip_static.sh
 
 CMD ["nginx", "-g", "daemon off;"]
