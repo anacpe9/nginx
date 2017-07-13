@@ -7,7 +7,7 @@ services:
   - docker:dind
 
 stages:
-#  - build-web
+  #- build-web
   - build-prod
 
 before_script:
@@ -15,12 +15,12 @@ before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
 build job:
-  stage: build
+  stage: build-prod
   script:
   # nginx, test configuration and exit.
   #- nginx -v
   #- nginx -t
   - TMPTAG=$(date +%Y%m%d-%H%M)
   - docker build --pull -t $CI_REGISTRY_IMAGE .
-#  - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$TMPTAG
-#  - docker push $CI_REGISTRY_IMAGE:$TMPTAG
+  #- docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$TMPTAG
+  #- docker push $CI_REGISTRY_IMAGE:$TMPTAG

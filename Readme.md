@@ -1,9 +1,10 @@
 **โครงสร้างหลัก**
 ```
+/etc/ssl/certs/
 /usr/share/nginx/
   |-- config/
   |   |-- nginx.conf <default configuration file>
-  |   |-- sites-available/
+  |   |-- conf.d/
   |       `-- th.ac.er.test.config
   |   |-- ssl/
   |       |-- dhparam.pem
@@ -25,9 +26,10 @@ docker login registry.er.co.th:443
 **First installation**
 ติดตั้งไฟล์ลงบน host
 ```shell
+mkdir -p /etc/ssl/certs/
 mkdir -p /usr/share/nginx/
 mkdir -p /etc/letsencrypt/webconfig/
-mkdir -p /etc/ssl/certs/
+mkdir -p /etc/letsencrypt/webrootauth/
 
 docker run -it --rm \
        --name webserver \
@@ -54,7 +56,7 @@ docker run -d \
 docker exec -it webserver nginx -s reload
 ```
 
-**Ref**
+**Refernce**
 * https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
 * https://publications.jbfavre.org/web/nginx-vhosts-automatiques-avec-SSL-et-authentification.en
 * https://publications.jbfavre.org/web/nginx-vhosts-automatiques-avec-SSL-et-authentification-version2.en
@@ -71,3 +73,11 @@ docker exec -it webserver nginx -s reload
 
 * https://medium.com/@ramangupta/why-docker-data-containers-are-good-589b3c6c749e
 * https://docs.docker.com/engine/tutorials/dockervolumes/
+* https://theartofmachinery.com/2016/06/06/nginx_gzip_static.html
+* http://wiki.linuxwall.info/doku.php/en:ressources:dossiers:nginx:nginx_performance_tuning
+
+
+* https://docs.gitlab.com/ee/ci/ssh_keys/README.html
+* https://docs.gitlab.com/ce/ci/ssh_keys/README.html#ssh-keys-when-using-the-docker-executor
+* https://gitlab.com/gitlab-examples/ssh-private-key/blob/master/.gitlab-ci.yml
+* https://forum.gitlab.com/t/ssh-keys-inside-dockerfile/5622/2
