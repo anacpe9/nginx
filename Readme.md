@@ -74,7 +74,7 @@ docker run -it --rm \
 **One-Shot command**
 ```shell
 $(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
-echo "must reinstall new version." && \
+&(echo "must reinstall new version." && \
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
@@ -93,6 +93,7 @@ docker run -d \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
        registry.er.co.th:443/er.co.th/www:latest
+)
 ```
 
 **Refernce**
@@ -120,3 +121,10 @@ docker run -d \
 * https://docs.gitlab.com/ce/ci/ssh_keys/README.html#ssh-keys-when-using-the-docker-executor
 * https://gitlab.com/gitlab-examples/ssh-private-key/blob/master/.gitlab-ci.yml
 * https://forum.gitlab.com/t/ssh-keys-inside-dockerfile/5622/2
+* https://lab.er.co.th/help/ssh/README
+
+* http://www.carlboettiger.info/2014/08/29/docker-notes.html
+* https://blogs.msdn.microsoft.com/cesardelatorre/2016/11/18/summary-of-official-microsoft-docker-images-for-net-core-and-net-framework/
+* https://github.com/dotnet/coreclr/issues/917
+
+* https://blog.anynines.com/mastering-continuous-integration-and-continuous-deployment-with-gitlab/

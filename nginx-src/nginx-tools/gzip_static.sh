@@ -4,7 +4,7 @@
 FILETYPES="*.html *.woff *.css *.jpg *.jpeg *.gif *.png *.js"
 
 #DIRECTORIES="/usr/share/nginx/html/"
-DIRECTORIES="/nginx-src/nginx-container/"
+DIRECTORIES="/nginx-src/nginx-container/html/"
 
 for currentdir in $DIRECTORIES
 do
