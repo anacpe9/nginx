@@ -74,7 +74,7 @@ docker run -it --rm \
 **One-Shot command**
 ```shell
 $(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
-&(echo "must reinstall new version." && \
+(echo "must reinstall new version." && \
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
