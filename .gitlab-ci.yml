@@ -12,8 +12,9 @@ stages:
   - release
 
 before_script:
-  - docker info
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  #- docker info
+  #- docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  - uname -a
 
 build job:
   stage: build-prod
