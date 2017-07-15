@@ -9,6 +9,7 @@ services:
 stages:
   #- build-web
   - build-prod
+  - release
 
 before_script:
   - docker info
@@ -26,3 +27,17 @@ build job:
   - docker push $CI_REGISTRY_IMAGE:$TMPTAG
   - docker push $CI_REGISTRY_IMAGE:latest
   #- docker images
+
+deploy to www.er.co.th job:
+  stage: release
+  image: alpine:3.6
+  only:
+  - master
+  script:
+  - which ssh-agent || (apk add --no-cache --update openssh-client)
+  - eval $(ssh-agent -s)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  - ssh-add -l
+  - $(echo "ssh core@www.er.co.th $(docker pull $CI_REGISTRY_IMAGE:latest | grep -q 'Image is up to date') || (echo 'must reinstall new version.' docker run -it --rm --volume /var/nginx:/var/nginx:rw --volume /etc/letsencrypt:/etc/letsencrypt:rw $CI_REGISTRY_IMAGE:latest /nginx-src/nginx-tools/reinstall.sh && echo 'send config-reload signal to nginx-webserver' && docker exec -it webserver2 nginx -s reload)")
