@@ -6,7 +6,7 @@
   |-- config/
   |   |-- nginx.pre-ssl.conf ---------------------> <use for setting letsencrypt>
   |   |-- conf.d/
-  |       |-- th.ac.er.www.config ---------------> vhost server block config file
+  |       |-- th.ac.er.www.config ----------------> vhost server block config file
   |       `-- th.ac.er.test.config
   |   |-- ssl/
   |       |-- dhparam.pem
