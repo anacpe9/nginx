@@ -128,3 +128,4 @@ docker run -d \
 * https://github.com/dotnet/coreclr/issues/917
 
 * https://blog.anynines.com/mastering-continuous-integration-and-continuous-deployment-with-gitlab/
+* https://lab.er.co.th/help/ci/yaml/README.md
