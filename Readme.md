@@ -13,7 +13,6 @@
   |       `-- snippets/
   |           |-- ssl-params.conf
   |           |-- ssl-th.ac.er.test.conf
-  |-- logs/
   `-- html/
       |-- th.ac.er.www <default>
       |-- th.ac.er.test <others> -----------------> <plug-in vhost>
@@ -45,9 +44,10 @@ docker run -it --rm \
 docker pull registry.er.co.th:443/er.co.th/www:latest && \
 docker run -d \
        --restart always \
-       --name webserver2 \
+       --name nginx-webserver \
        --publish 80:80 \
        --publish 443:443 \
+       --volume /var/log/nginx:/var/log/nginx:rw \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
@@ -59,7 +59,7 @@ docker run -d \
 และ nginx reload configuration ใหม่
 ```shell
 #docker exec -it webserver /nginx-src/nginx-tools/gzip_static.sh
-docker exec -it webserver nginx -s reload
+docker exec -it nginx-webserver nginx -s reload
 ```
 
 **ลบไฟล์**
@@ -129,3 +129,13 @@ docker run -d \
 
 * https://blog.anynines.com/mastering-continuous-integration-and-continuous-deployment-with-gitlab/
 * https://lab.er.co.th/help/ci/yaml/README.md
+
+
+**Tunnig Nginx**
+* [Nginx Optimization: understanding sendfile, tcp_nodelay and tcp_nopush](https://t37.net/nginx-optimization-understanding-sendfile-tcp_nodelay-and-tcp_nopush.html)
+* [Tuning Nginx for Best Performance](http://dak1n1.com/blog/12-nginx-performance-tuning/)
+* [Nginx Optimization – The Definitive Guide](https://www.scalescale.com/tips/nginx/nginx-optimization-the-definitive-guide/)
+* [How to Configure nginx for Optimized Performance](https://www.linode.com/docs/web-servers/nginx/configure-nginx-for-optimized-performance)
+* [How To Optimize Nginx Configuration](https://www.digitalocean.com/community/tutorials/how-to-optimize-nginx-configuration)
+* [Tuning NGINX for Performance](https://www.nginx.com/blog/tuning-nginx/)
+* [How to Monitor Nginx: The Essential Guide ](https://www.scalyr.com/community/guides/how-to-monitor-nginx-the-essential-guide)

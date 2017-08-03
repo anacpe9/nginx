@@ -22,7 +22,8 @@ build job:
   # nginx, test configuration and exit.
   #- nginx -v
   #- nginx -t
-  - TMPTAG=$(date +%Y%m%d-%H%M)
+  #- TMPTAG=$(date +%Y%m%d-%H%M)
+  - TMPTAG=1.12.1-r0
   - docker info  
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   - docker build --pull -t $CI_REGISTRY_IMAGE:latest .

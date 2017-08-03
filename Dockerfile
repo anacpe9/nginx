@@ -31,6 +31,8 @@ RUN mkdir -p /run/nginx/ && \
     ls -l /var/tmp/nginx/client_body/ && \
     echo "ls -l /etc/ssl/certs/" && \    
     ls -l /etc/ssl/certs/ && \
-    /nginx-src/nginx-tools/gzip_static.sh
+    /nginx-src/nginx-tools/gzip_static.sh && \
+    nginx -t && \
+    nginx -v
 
 CMD ["nginx", "-g", "daemon off;"]
