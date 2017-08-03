@@ -20,6 +20,7 @@ RUN mkdir -p /run/nginx/ && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
     cp -f /nginx-src/nginx-container/nginx.conf /etc/nginx/ && \
+    mkdir -p /nginx-src/nginx-container/html/ && \
     chmod a+x /nginx-src/nginx-tools/gzip_static.sh && \
     chmod a+x /nginx-src/nginx-tools/install.sh && \
     chmod a+x /nginx-src/nginx-tools/uninstall.sh && \

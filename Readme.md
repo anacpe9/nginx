@@ -32,16 +32,16 @@ mkdir -p /etc/ssl/certs/ && \
 mkdir -p /etc/letsencrypt/webconfig/ && \
 mkdir -p /etc/letsencrypt/webrootauth/ && \
 
-docker pull registry.er.co.th:443/er.co.th/www:latest && \
+docker pull registry.er.co.th:443/ops/nginx-webserver:latest && \
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/er.co.th/www:latest \
+       registry.er.co.th:443/ops/nginx-webserver:latest \
        /nginx-src/nginx-tools/install.sh
 ```
 
 ```shell
-docker pull registry.er.co.th:443/er.co.th/www:latest && \
+docker pull registry.er.co.th:443/ops/nginx-webserver:latest && \
 docker run -d \
        --restart always \
        --name nginx-webserver \
@@ -51,7 +51,7 @@ docker run -d \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
-       registry.er.co.th:443/er.co.th/www:latest
+       registry.er.co.th:443/ops/nginx-webserver:latest
 ```
 
 หากมีการติดตั้ง plug-in vhost หลักจากนี้   
@@ -67,32 +67,32 @@ docker exec -it nginx-webserver nginx -s reload
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/er.co.th/www:latest \
+       registry.er.co.th:443/ops/nginx-webserver:latest \
        /nginx-src/nginx-tools/uninstall.sh
 ```
 
 **One-Shot command**
 ```shell
-$(docker pull registry.er.co.th:443/er.co.th/www:latest | grep -q 'Image is up to date') || \
+$(docker pull registry.er.co.th:443/ops/nginx-webserver:latest | grep -q 'Image is up to date') || \
 (echo "must reinstall new version." && \
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/er.co.th/www:latest \
+       registry.er.co.th:443/ops/nginx-webserver:latest \
        /nginx-src/nginx-tools/reinstall.sh && \
-echo "docker stop webserver2" && \
-docker stop webserver2 && \
-echo "docker rm webserver2" && \
-docker rm webserver2 && \
+echo "docker stop nginx-webserver" && \
+docker stop nginx-webserver && \
+echo "docker rm nginx-webserver" && \
+docker rm nginx-webserver && \
 docker run -d \
        --restart always \
-       --name webserver2 \
+       --name nginx-webserver \
        --publish 80:80 \
        --publish 443:443 \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
-       registry.er.co.th:443/er.co.th/www:latest
+       registry.er.co.th:443/ops/nginx-webserver:latest
 )
 ```
 
