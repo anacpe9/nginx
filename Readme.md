@@ -104,11 +104,13 @@ docker run -d \
 * https://nvbn.github.io/2015/01/25/docker-nginx/
 
 
+
 * http://blog.xebia.com/create-the-smallest-possible-docker-container/
 * https://medium.com/@adriaandejonge/simplify-the-smallest-possible-docker-image-62c0e0d342ef
 * https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/
 * http://www.blang.io/posts/2015-04_how-to-build-the-smallest-docker-containers/
 * https://www.brianchristner.io/docker-image-base-os-size-comparison/
+
 
 
 * https://medium.com/@ramangupta/why-docker-data-containers-are-good-589b3c6c749e
@@ -117,11 +119,14 @@ docker run -d \
 * http://wiki.linuxwall.info/doku.php/en:ressources:dossiers:nginx:nginx_performance_tuning
 
 
+
 * https://docs.gitlab.com/ee/ci/ssh_keys/README.html
 * https://docs.gitlab.com/ce/ci/ssh_keys/README.html#ssh-keys-when-using-the-docker-executor
 * https://gitlab.com/gitlab-examples/ssh-private-key/blob/master/.gitlab-ci.yml
 * https://forum.gitlab.com/t/ssh-keys-inside-dockerfile/5622/2
 * https://lab.er.co.th/help/ssh/README
+
+
 
 * http://www.carlboettiger.info/2014/08/29/docker-notes.html
 * https://blogs.msdn.microsoft.com/cesardelatorre/2016/11/18/summary-of-official-microsoft-docker-images-for-net-core-and-net-framework/
@@ -129,6 +134,7 @@ docker run -d \
 
 * https://blog.anynines.com/mastering-continuous-integration-and-continuous-deployment-with-gitlab/
 * https://lab.er.co.th/help/ci/yaml/README.md
+
 
 
 **Tunnig Nginx**
