@@ -15,7 +15,7 @@ RUN mkdir -p /run/nginx/ && \
     apk update && \
     apk upgrade && \
     apk add --no-cache --update \
-        nginx && \
+        "nginx=1.12.2-r1" && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \
