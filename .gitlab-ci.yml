@@ -1,4 +1,4 @@
-image: alpine:3.6
+image: alpine:3.8
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -18,12 +18,13 @@ build job:
   image: docker:latest
   services:
     - docker:dind
+  variables:
+    - TMPTAG: "1.14.0-r0"
+    # - TMPTAG: $(date +%Y%m%d-%H%M)
   script:
   # nginx, test configuration and exit.
   #- nginx -v
   #- nginx -t
-  #- TMPTAG=$(date +%Y%m%d-%H%M)
-  - TMPTAG={{1.12.2-r1}}
   - docker info  
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   - docker build --pull -t $CI_REGISTRY_IMAGE:latest .
@@ -34,7 +35,7 @@ build job:
 
 deploy to www.er.co.th job:
   stage: release
-  image: alpine:3.6
+  image: alpine:3.8
   when: manual
   only:
   - master
