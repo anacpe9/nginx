@@ -1,6 +1,6 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
-MAINTAINER Anucha Nualsi <n.anucha@er.co.th>
+LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 COPY nginx-src /nginx-src
 
@@ -15,7 +15,7 @@ RUN mkdir -p /run/nginx/ && \
     apk update && \
     apk upgrade && \
     apk add --no-cache --update \
-        "nginx=1.12.2-r1" && \
+    "nginx=1.14.0-r0" && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/apk/* && \

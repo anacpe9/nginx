@@ -19,8 +19,8 @@ build job:
   services:
     - docker:dind
   variables:
-    - TMPTAG: "1.14.0-r0"
-    # - TMPTAG: $(date +%Y%m%d-%H%M)
+    TMPTAG: "1.14.0-r0"
+    # TMPTAG: $(date +%Y%m%d-%H%M)
   script:
   # nginx, test configuration and exit.
   #- nginx -v
