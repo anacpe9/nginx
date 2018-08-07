@@ -1,4 +1,4 @@
-image: alpine:3.6
+image: {{alpine}}:{{3.6}}
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -34,7 +34,7 @@ build job:
 
 deploy to www.er.co.th job:
   stage: release
-  image: alpine:3.6
+  image: {{alpine}}:{{3.6}}
   when: manual
   only:
   - master
