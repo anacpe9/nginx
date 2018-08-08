@@ -1,26 +1,32 @@
 # Nginx
 
+Nginx relied on `https://pkgs.alpinelinux.org/packages`, and redirect default `conf.d` directory to `/var/nginx/config/conf.d`
+
 ## โครงสร้างหลัก
 
 ```text
-/etc/ssl/certs/
-/etc/nginx/config.conf ---------------------------> <default main configuration file>
+/etc/ssl/certs/                             ----> main root-CA of hosted server
+/etc/nginx/config.conf                      ----> default main configuration file
+/etc/letsencrypt/webrootauth/               ----> related to webroot-path in Let's Enscrypt *.ini
+/etc/letsencrypt/webconfig/                 ----> Let's Enscrypt *.ini config files.
 /var/nginx/
   |-- config/
-  |   |-- nginx.pre-ssl.conf ---------------------> <use for setting letsencrypt>
-  |   |-- conf.d/
-  |       |-- th.ac.er.www.config ----------------> vhost server block config file
-  |       `-- th.ac.er.test.config
-  |   |-- ssl/
-  |       |-- dhparam.pem
-  |       `-- snippets/
-  |           |-- ssl-params.conf
-  |           |-- ssl-th.ac.er.test.conf
+  |   |-- nginx.pre-ssl.conf                ----> use for setting Let's Encrypt
+  |   |-- conf.d/                           ----> individual nginx-block(s) config files
+  |       |-- th.ac.er.www.config           ----> default wwwroot vhost config file
+  |       `-- th.ac.er.test.config          ----> <plug-in> vhost config file
+  |   |-- ssl/                              ----> securities setting configurations
+  |       |-- dhparam.pem                   ----> defend logjam attack with 'dhparam'
+  |       `-- snippets/                     ----> individual secured site's nginx-block(s) config files
+  |           |-- ssl-params.conf           ----> default securities parameter
+  |           |-- ssl-th.ac.er.test.conf    ----> specific secure site block example
   `-- html/
-      |-- th.ac.er.www <default>
-      |-- th.ac.er.test <others> -----------------> <plug-in vhost>
-      `-- th.ac.er.test_app1 <virtual path> ------> <plug-in vhost>
+      |-- th.ac.er.www <default>            ----> default wwwroot, related /var/nginx/conf.d/*.config
+      |-- th.ac.er.test <others>            ----> <plug-in vhost>
+      `-- th.ac.er.test_app1 <virtual path> ----> <plug-in vhost>
 ```
+
+Note: `/var/nginx/` เป็นไดเรคทอรี่บนเครื่องเซิร์ฟเวอร์ และ map เข้ากับ docker เพื่อทำงานด้วยกัน
 
 ถ้าเข้าใช้งานครั้งแรกต้อง login เข้า docker registry ก่อน
 
@@ -30,24 +36,36 @@ docker login registry.er.co.th:443
 
 ## First installation
 
-ติดตั้งไฟล์ลงบน host
+### ติดตั้งไฟล์ลงบน host
+
+สร้าาง directories ที่จำเป็นต่างๆ รอไว้
 
 ```shell
-mkdir -p /var/nginx/ && \
-mkdir -p /etc/ssl/certs/ && \
-mkdir -p /etc/letsencrypt/webconfig/ && \
-mkdir -p /etc/letsencrypt/webrootauth/ && \
+sudo mkdir -p /etc/ssl/certs/ && \
+sudo mkdir -p /etc/letsencrypt/live/ && \
+sudo mkdir -p /etc/letsencrypt/webconfig/ && \
+sudo mkdir -p /etc/letsencrypt/webrootauth/ && \
+sudo mkdir -p /var/nginx/ssl/snippets/ && \
+sudo mkdir -p /var/nginx/config/ && \
+sudo mkdir -p /var/nginx/html/ && \
+sudo mkdir -p /var/log/nginx/ && \
+sudo mkdir -p /var/log/letsencrypt && \
+sudo sh -c 'openssl dhparam -rand - 2048 >> /var/nginx/ssl/dhparam.pem'
+```
 
-docker pull registry.er.co.th:443/ops/nginx-webserver:latest && \
+ติดตั้ง server และ config file เบื้องต้นก่อน
+
+```shell
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/ops/nginx-webserver:latest \
+       anacha/nginx:latest \
        /nginx-src/nginx-tools/install.sh
 ```
 
+รันเซิร์ฟเวอร์ครั้งแรกเพื่อทำการขอ Certs จาก Let's enscrypt.
+
 ```shell
-docker pull registry.er.co.th:443/ops/nginx-webserver:latest && \
 docker run -d \
        --restart always \
        --name nginx-webserver \
@@ -56,8 +74,25 @@ docker run -d \
        --volume /var/log/nginx:/var/log/nginx:rw \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
-       --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
-       registry.er.co.th:443/ops/nginx-webserver:latest
+       --volume /var/nginx/ssl/dhparam.pem:/var/nginx/ssl/dhparam.pem:ro \
+       anacha/nginx:latest
+```
+
+ส่งคำร้องของใบรับรองจาก Let's encrypt
+
+```shell
+sudo cp ~/com.keepingforward.ini /etc/letsencrypt/webconfig/com.keepingforward.ini && \
+sudo cp ~/webroot-ssl-enable.conf /var/nginx/config/webroot-ssl-enable.conf && \
+docker exec -it nginx-webserver nginx -s reload && \
+docker pull quay.io/letsencrypt/letsencrypt:latest && \
+docker run --rm \
+  --name letsencrypt \
+  --volume /etc/letsencrypt:/etc/letsencrypt:rw \
+  --volume /var/lib/letsencrypt:/var/lib/letsencrypt:rw \
+  --volume /var/log/letsencrypt:/var/log/letsencrypt:rw \
+  quay.io/letsencrypt/letsencrypt:latest \
+  -c "/etc/letsencrypt/webconfig/com.keepingforward.ini" \
+  certonly
 ```
 
 หากมีการติดตั้ง plug-in vhost หลักจากนี้  
@@ -70,6 +105,7 @@ docker exec -it nginx-webserver nginx -s reload
 ```
 
 ### ลบไฟล์
+
 ```shell
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
@@ -99,7 +135,7 @@ docker run -d \
        --publish 443:443 \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
-       --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
+       --volume /var/nginx/ssl/dhparam.pem:/var/nginx/ssl/dhparam.pem:ro \
        registry.er.co.th:443/ops/nginx-webserver:latest
 )
 ```
@@ -136,7 +172,7 @@ docker run -d \
 * https://blog.anynines.com/mastering-continuous-integration-and-continuous-deployment-with-gitlab/
 * https://lab.er.co.th/help/ci/yaml/README.md
 
-### Tunnig Nginx
+### Nginx Tuning
 
 * [Nginx Optimization: understanding sendfile, tcp_nodelay and tcp_nopush](https://t37.net/nginx-optimization-understanding-sendfile-tcp_nodelay-and-tcp_nopush.html)
 * [Tuning Nginx for Best Performance](http://dak1n1.com/blog/12-nginx-performance-tuning/)
@@ -145,3 +181,4 @@ docker run -d \
 * [How To Optimize Nginx Configuration](https://www.digitalocean.com/community/tutorials/how-to-optimize-nginx-configuration)
 * [Tuning NGINX for Performance](https://www.nginx.com/blog/tuning-nginx/)
 * [How to Monitor Nginx: The Essential Guide](https://www.scalyr.com/community/guides/how-to-monitor-nginx-the-essential-guide)
+* [NGINX Tuning For Best Performance](https://gist.github.com/denji/8359866)
