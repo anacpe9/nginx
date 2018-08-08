@@ -110,19 +110,19 @@ docker exec -it nginx-webserver nginx -s reload
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/ops/nginx-webserver:latest \
+       anacha/nginx:latest \
        /nginx-src/nginx-tools/uninstall.sh
 ```
 
 ### One-Shot command
 
 ```shell
-$(docker pull registry.er.co.th:443/ops/nginx-webserver:latest | grep -q 'Image is up to date') || \
+$(docker pull anacha/nginx:latest | grep -q 'Image is up to date') || \
 (echo "must reinstall new version." && \
 docker run -it --rm \
        --volume /var/nginx:/var/nginx:rw \
        --volume /etc/letsencrypt:/etc/letsencrypt:rw \
-       registry.er.co.th:443/ops/nginx-webserver:latest \
+       anacha/nginx:latest \
        /nginx-src/nginx-tools/reinstall.sh && \
 echo "docker stop nginx-webserver" && \
 docker stop nginx-webserver && \
@@ -136,7 +136,7 @@ docker run -d \
        --volume /var/nginx:/var/nginx:ro \
        --volume /etc/letsencrypt:/etc/letsencrypt:ro \
        --volume /var/nginx/ssl/dhparam.pem:/var/nginx/ssl/dhparam.pem:ro \
-       registry.er.co.th:443/ops/nginx-webserver:latest
+       anacha/nginx:latest
 )
 ```
 
