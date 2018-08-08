@@ -140,6 +140,16 @@ docker run -d \
 )
 ```
 
+#### Do not forget
+
+อย่าลืมลบไฟล์ webroot-ssl-enable.conf
+หลังจากติดตั้งเวบทีเตรียมไว้แล้ว
+
+```shell
+sudo rm /var/nginx/config/webroot-ssl-enable.conf && \
+docker exec -it nginx-webserver nginx -s reload
+```
+
 #### Refernce
 
 * https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
