@@ -7,6 +7,7 @@ stages:
   #- build-web
   - build-prod
   - release
+  - git-push-to-mirror
 
 before_script:
   #- docker info
@@ -48,7 +49,17 @@ build job:
   - docker logout "$DOCKERHUB_REGISTRY"
   #- docker images
 
+.job_sshpushtemplate: &sshpush
+  image: anacha/openssh-client
+  before_script:
+    - which ssh-agent || (apk add --no-cache --update openssh-client)
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - $([[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config) 
+    # - ssh-keyscan -H 'bitbucket.org' >> ~/.ssh/known_hosts
+
 deploy to server host job:
+  <<: *sshpush
   stage: release
   image: anacha/openssh-client
   when: manual
@@ -57,13 +68,8 @@ deploy to server host job:
   variables:
     NGINX_IMAGE: "anacha/nginx" #$CI_REGISTRY_IMAGE
   script:
-  - which ssh-agent || (apk add --no-cache --update openssh-client)
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   - echo "$SSH_PRIVATE_KEY" | ssh-add -
   - ssh-add -l
-  #- $(echo "ssh core@www.er.co.th docker pull $CI_REGISTRY_IMAGE:latest && docker run --rm --volume /var/nginx:/var/nginx:rw --volume /etc/letsencrypt:/etc/letsencrypt:rw $CI_REGISTRY_IMAGE:latest /nginx-src/nginx-tools/reinstall.sh && docker stop webserver2 && docker rm webserver2 && docker run -d --restart always --name webserver2 --publish 80:80 --publish 443:443 --volume /var/nginx:/var/nginx:ro --volume /etc/letsencrypt:/etc/letsencrypt:ro --volume /var/nginx/ssl/dhparam.pem:/var/nginx/ssl/dhparam.pem:ro registry.er.co.th:443/er.co.th/www:latest")
   - >-
     $(echo "ssh core@www.keepingforward.com docker pull $NGINX_IMAGE:latest
     && docker run --rm
@@ -84,3 +90,30 @@ deploy to server host job:
     --volume /etc/letsencrypt:/etc/letsencrypt:ro
     --volume /var/nginx/ssl/dhparam.pem:/var/nginx/ssl/dhparam.pem:ro
     $NGINX_IMAGE:latest")
+
+Github Mirror:
+  <<: *sshpush
+  stage: git-push-to-mirror
+  variables:
+    GITHUB_REPO: "github.com:anacpe9/nginx.git"
+  only:
+    - master
+  script:
+    - echo "$GITHUB_SSH_PRIVATE_KEY" | ssh-add -
+    - ssh-add -l
+    - git push --mirror git@$GITHUB_REPO
+    - git push git@$GITHUB_REPO HEAD:master
+
+Bitbucket Mirror:
+  <<: *sshpush
+  stage: git-push-to-mirror
+  variables:
+    BITBUCKET_REPO: "bitbucket.org:anacpe9/nginx.git"
+  only:
+    - master
+  script:
+    - echo "$BITBUCKET_SSH_PRIVATE_KEY" | ssh-add -
+    - ssh-add -l
+    - git push --mirror git@$BITBUCKET_REPO
+    - git push git@$BITBUCKET_REPO HEAD:master
+    
