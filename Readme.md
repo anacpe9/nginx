@@ -192,3 +192,11 @@ docker exec -it nginx-webserver nginx -s reload
 * [Tuning NGINX for Performance](https://www.nginx.com/blog/tuning-nginx/)
 * [How to Monitor Nginx: The Essential Guide](https://www.scalyr.com/community/guides/how-to-monitor-nginx-the-essential-guide)
 * [NGINX Tuning For Best Performance](https://gist.github.com/denji/8359866)
+* [**How to Activate HTTP/2 with TLS 1.3 Encryption in NGINX for Secure Connections without a Performance Penalty**](How to Activate HTTP/2 with TLS 1.3 Encryption in NGINX for Secure Connections without a Performance Penalty)
+* [TLS 1.3 and Brotli compression with Nginx on CentOS](https://medium.com/@karljohnson/tls-1-3-and-brotli-compression-with-nginx-on-centos-c4fe3c7f195d)
+
+### Tools
+
+* [**Mozilla SSL Configuration Generator**](https://mozilla.github.io/server-side-tls/ssl-config-generator/)
+* [HTTP/2 Push Test](https://http2-push.io/)
+* [SSL Server Test](https://www.ssllabs.com/ssltest/index.html)
