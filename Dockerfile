@@ -10,6 +10,7 @@ ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
 
 RUN apk update --no-cache && \
     apk add --no-cache --update \
+    nginx-mod-http-headers-more \
     tzdata && \
     cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime && \
     echo "Asia/Bangkok" >  /etc/timezone && \
