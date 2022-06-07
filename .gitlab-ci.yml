@@ -18,11 +18,12 @@ stages:
     RESOURCE_GROUP: "rh-k8s-group"
   before_script:
     - docker info
-    - IMAGE_VERSION=$(git tag --points-at `git rev-list --tags --max-count=1` | grep -E "[0-9]+\.[0-9]+\.[0-9]+") ./_gen-dockerfile.sh
+    - git fetch --tags
+    - IMAGE_VERSION=$(git tag --points-at $(git rev-list -n 1 `git describe --tags --abbrev=0`) | grep -E "[0-9]+\.[0-9]+\.[0-9]+") ./_gen-dockerfile.sh
     - echo "$CI_BUILD_TOKEN" | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - >-
       docker build
-      $(git tag --points-at `git rev-list --tags --max-count=1` | awk ' { print " -t " ENVIRON["CI_REGISTRY_IMAGE"] ":" $0} ')
+      $(git tag --points-at $(git rev-list -n 1 `git describe --tags --abbrev=0`) | awk ' { print " -t " ENVIRON["CI_REGISTRY_IMAGE"] ":" $0} ')
       -f dist/Dockerfile
       .
 
@@ -31,6 +32,7 @@ Docker:Build:
   stage: DockerRelease
   only:
     - main
+    - from-alpine-repo
   script:
     - docker images
 
