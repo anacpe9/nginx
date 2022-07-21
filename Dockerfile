@@ -10,7 +10,7 @@ ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
 
 RUN apk update --no-cache && \
     apk add --no-cache --update \
-    nginx=1.22.0-r0 \
+    nginx=1.22.0-r2 \
     nginx-mod-http-headers-more \
     nginx-mod-http-brotli \
     tzdata && \
