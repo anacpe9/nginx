@@ -13,7 +13,9 @@ RUN apk update --no-cache && \
     nginx=1.22.0-r2 \
     nginx-mod-http-headers-more \
     nginx-mod-http-brotli \
+    curl && \
     tzdata && \
+    update-ca-certificates && \
     cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime && \
     echo "Asia/Bangkok" >  /etc/timezone && \
     apk del tzdata && \
