@@ -35,6 +35,8 @@ Docker:Build:
     - from-alpine-repo
   script:
     - docker images
+    - TAG_VERSION="$(git describe --tags --abbrev=0)"
+    - docker push $CI_REGISTRY_IMAGE:$TAG_VERSION
 
 Docker:Build and Release:
   <<: *docker-cli
