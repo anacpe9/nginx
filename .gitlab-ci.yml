@@ -32,6 +32,13 @@ Docker:Build:
   stage: DockerRelease
   only:
     - main
+  script:
+    - docker images
+
+Docker:Build-Alpine-Repo:
+  <<: *docker-cli
+  stage: DockerRelease
+  only:
     - from-alpine-repo
   script:
     - docker images
