@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.18
 LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
@@ -13,6 +13,7 @@ RUN apk update --no-cache && \
     nginx=%%IMAGE_VERSION%% \
     nginx-mod-http-headers-more \
     nginx-mod-http-brotli \
+    nginx-mod-stream \
     tzdata && \
     cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime && \
     echo "Asia/Bangkok" >  /etc/timezone && \
