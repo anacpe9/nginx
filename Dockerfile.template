@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.21
 LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
