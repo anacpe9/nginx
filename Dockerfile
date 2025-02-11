@@ -1,4 +1,4 @@
-FROM nginx:1.25.2-alpine
+FROM nginx:1.27.4-alpine
 LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
