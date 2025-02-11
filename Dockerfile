@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.21
 LABEL maintainer="Anucha Nualsi <ana.cpe9@gmail.com>"
 
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
@@ -10,7 +10,7 @@ ENV NODE_TLS_REJECT_UNAUTHORIZED=0 \
 
 RUN apk update --no-cache && \
     apk add --no-cache --update \
-    nginx=1.24.0-r7 \
+    nginx=1.26.2-r4 \
     nginx-mod-http-headers-more \
     nginx-mod-http-brotli \
     nginx-mod-stream \
